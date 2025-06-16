@@ -121,4 +121,4 @@ If you encounter any issues or have feature requests, please open an issue on th
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-Happy coding! 🚀
+Happy coding!

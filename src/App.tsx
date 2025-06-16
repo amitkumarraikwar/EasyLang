@@ -12,7 +12,7 @@ type Tab = 'editor' | 'repl' | 'reference';
 
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('editor');
-  const [code, setCode] = useState(`# Welcome to EasyLang! 🚀
+  const [code, setCode] = useState(`# Welcome to EasyLang!
 # A programming language designed for simplicity
 
 # Variable declaration
@@ -49,7 +49,7 @@ system celebrate(name):
 
 banao result = celebrate(name)
 likho result`);
-  
+
   const [output, setOutput] = useState<string[]>([]);
   const [error, setError] = useState<string | undefined>();
 
@@ -61,7 +61,7 @@ likho result`);
       const ast = parser.parse();
       const interpreter = new Interpreter();
       const result = interpreter.interpret(ast);
-      
+
       setOutput(result.output);
       setError(result.error);
     } catch (err) {
@@ -114,90 +114,95 @@ likho result`);
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
-                <Cpu className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">EasyLang</h1>
-                <p className="text-sm text-gray-500">Programming Language Interpreter</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-1">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    activeTab === tab.key
-                      ? 'bg-blue-100 text-blue-700 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
+    <div className= "min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50" >
+    {/* Header */ }
+    < header className = "bg-white shadow-sm border-b border-gray-200" >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" >
+        <div className="flex items-center justify-between h-16" >
+          <div className="flex items-center space-x-3" >
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg" >
+              <Cpu className="h-6 w-6 text-white" />
+                </div>
+                < div >
+                <h1 className="text-xl font-bold text-gray-900" > EasyLang </h1>
+                  < p className = "text-sm text-gray-500" > Programming Language Interpreter </p>
+                    </div>
+                    </div>
+
+                    < div className = "flex items-center space-x-1" >
+                    {
+                      tabs.map((tab) => (
+                        <button
+                  key= { tab.key }
+                  onClick = {() => setActiveTab(tab.key)}
+  className = {`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${activeTab === tab.key
+      ? 'bg-blue-100 text-blue-700 shadow-sm'
+      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+    }`
+}
                 >
-                  <tab.icon className="h-4 w-4" />
-                  <span>{tab.label}</span>
-                </button>
+  <tab.icon className="h-4 w-4" />
+    <span>{ tab.label } </span>
+    </button>
               ))}
-            </div>
-          </div>
+</div>
+  </div>
+  </div>
+  </header>
+
+{/* Main Content */ }
+<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" >
+  { activeTab === 'editor' && (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-200px)]" >
+      <CodeEditor
+              code={ code }
+onChange = { setCode }
+onRun = {() => executeCode()}
+onSave = { handleSave }
+onLoad = { handleLoad }
+onDownload = { handleDownload }
+  />
+  <OutputConsole
+              output={ output }
+error = { error }
+onClear = { clearOutput }
+  />
+  </div>
+        )}
+
+{
+  activeTab === 'repl' && (
+    <div className="h-[calc(100vh-200px)]" >
+      <REPL />
+      </div>
+        )
+}
+
+{
+  activeTab === 'reference' && (
+    <div className="h-[calc(100vh-200px)]" >
+      <LanguageReference onRunExample={ runExample } />
         </div>
-      </header>
+        )
+}
+</main>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'editor' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-200px)]">
-            <CodeEditor
-              code={code}
-              onChange={setCode}
-              onRun={() => executeCode()}
-              onSave={handleSave}
-              onLoad={handleLoad}
-              onDownload={handleDownload}
-            />
-            <OutputConsole
-              output={output}
-              error={error}
-              onClear={clearOutput}
-            />
-          </div>
-        )}
-
-        {activeTab === 'repl' && (
-          <div className="h-[calc(100vh-200px)]">
-            <REPL />
-          </div>
-        )}
-
-        {activeTab === 'reference' && (
-          <div className="h-[calc(100vh-200px)]">
-            <LanguageReference onRunExample={runExample} />
-          </div>
-        )}
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-600">
-              EasyLang - A simple, intuitive programming language
-            </p>
-            <div className="flex items-center space-x-4 text-sm text-gray-500">
-              <span>Built with TypeScript & React</span>
-              <span>•</span>
-              <span>Open Source</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+{/* Footer */ }
+<footer className="bg-white border-t border-gray-200 mt-16" >
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6" >
+    <div className="flex items-center justify-between" >
+      <p className="text-sm text-gray-600" >
+        EasyLang - A simple, intuitive programming language
+          </p>
+          < div className = "flex items-center space-x-4 text-sm text-gray-500" >
+            <span>Built with TypeScript & React </span>
+            <span>•</span>
+              < span > Open Source </span>
+                </div>
+                </div>
+                </div>
+                </footer>
+                </div>
   );
 }
 

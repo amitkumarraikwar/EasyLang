@@ -1,6 +1,6 @@
 {
-  "name": "easylang-interpreter",
-  "private": true,
+  "name": "easylang",
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -31,5 +31,8 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.3.0",
     "vite": "^6.3.5"
+  },
+  "bin": {
+  "easylang": "dist/index.js"
   }
 }
